@@ -33,7 +33,7 @@ class DataInitializer implements BootstrapInitializerComponent {
                 firstName: "Learning Two",
                 middleName: "Web",
                 lastName: "Framework",
-                username: "sampleapp",
+                username: "sampleapp2",
                 password: "password",
                 emailAddress: "sampleapp2@yopmail.com",
                 roles: [userRole],
