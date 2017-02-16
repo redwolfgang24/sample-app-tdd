@@ -16,7 +16,7 @@ class UserService extends AbstractValidateAndSaveService {
     public User update(User user, UserDto userDto) {
         validateUpdate(userDto)
         if(hasChanges(user, userDto)) {
-            validateAndSave(user)
+            //validateAndSave(user)
         }
 
         return user
