@@ -88,13 +88,95 @@ grails.hibernate.osiv.readonly = false
 environments {
     development {
         grails.logging.jul.usebridge = true
+        log4j = {
+            error 'org.flywaydb'
+            info 'com.sampleapptdd.demo'
+        }
+        brokerUrl = 'tcp://localhost:61616'
+        grails.plugin.springsecurity.portMapper.httpPort = 8080
+        grails.plugin.springsecurity.portMapper.httpsPort = 8443
+    }
+    test {
+        grails.logging.jul.usebridge = true
+        log4j = {
+            error 'org.flywaydb'
+            info 'com.sampleapptdd.demo'
+        }
+        brokerUrl = 'tcp://localhost:61616'
+        grails.plugin.springsecurity.portMapper.httpPort = 8080
+        grails.plugin.springsecurity.portMapper.httpsPort = 8443
+    }
+    staging {
+        grails.logging.jul.usebridge = false
+        log4j = {
+            error 'org.flywaydb'
+            info 'com.sampleapptdd.demo'
+        }
+        brokerUrl = 'tcp://localhost:61616'
+        grails.plugins.gflyway.locations = 'db/migration/schema, db/migration/data'
+        grails.serverURL = "http://www.jaylexhomecare.com/"
     }
     production {
         grails.logging.jul.usebridge = false
+        log4j = {
+            error 'org.flywaydb'
+            info 'com.sampleapptdd.demo'
+        }
         // TODO: grails.serverURL = "http://www.changeme.com"
     }
 }
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.sampleapptdd.demo.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.sampleapptdd.demo.security.UserRole'
+grails.plugin.springsecurity.authority.className = 'com.sampleapptdd.demo.security.Role'
+grails.plugin.springsecurity.securityConfigType = "Annotation"
 
+grails.plugin.springsecurity.rest.token.storage.useGorm = true
+grails.plugin.springsecurity.rest.token.storage.gorm.tokenDomainClassName = 'com.sampleapptdd.demo.AuthToken'
+grails.plugin.springsecurity.rest.token.storage.gorm.tokenValuePropertyName = 'token'
+
+grails.plugin.springsecurity.secureChannel.useHeaderCheckChannelSecurity = true
+grails.plugin.springsecurity.secureChannel.secureHeaderName = 'X-Forwarded-Proto'
+grails.plugin.springsecurity.secureChannel.secureHeaderValue = 'http'
+grails.plugin.springsecurity.secureChannel.insecureHeaderName = 'X-Forwarded-Proto'
+grails.plugin.springsecurity.secureChannel.insecureHeaderValue = 'https'
+grails.plugin.springsecurity.secureChannel.definition = [
+        '/**':               'REQUIRES_SECURE_CHANNEL'
+]
+grails {
+    plugin {
+        springsecurity {
+            filterChain {
+                chainMap = [
+                        '/api/v1/auth/login': 'anonymousAuthenticationFilter',
+                        '/api/**': 'JOINED_FILTERS,-anonymousAuthenticationFilter, -exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter, -restAuthenticationFilter',  // Stateless chain
+                        '/**': 'channelProcessingFilter,anonymousAuthenticationFilter'
+                ]
+            }
+            rest {
+                token {
+                    validation {
+                        enableAnonymousAccess = true
+                    }
+                }
+            }
+        }
+    }
+    /*plugins {
+        gflyway {
+            initOnMigrate = true
+            schemas = 'public'
+            table = 'schema_version'
+            encoding = 'UTF-8'
+            sqlMigrationPrefix = 'V'
+            sqlMigrationSuffix = '.sql'
+            validationErrorMode = 'FAIL'
+            autoMigrate = true
+        }
+    }*/
+}
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+        '/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+]
 // log4j configuration
 log4j.main = {
     // Example of changing the log pattern for the default console appender:
@@ -115,3 +197,11 @@ log4j.main = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+grails.assets.minifyOptions = [
+        optimizationLevel: 'WHITESPACE_ONLY' //Or ADVANCED or WHITESPACE_ONLY
+]
+
+grails.assets.minifyJs = true
+grails.assets.minifyCss = true
+grails.assets.bundle = true
