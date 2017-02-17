@@ -54,15 +54,14 @@ class UserServiceSpec extends Specification {
 
         when:
         User updatedUser = service.update(currentUser, userDto)
-        User updateUser = User.findById(currentUser.id)
 
         then:
-        updateUser.firstName == userDto.firstName
-        updateUser.middleName == userDto.middleName
-        updateUser.lastName == userDto.lastName
-        updateUser.suffix == userDto.suffix
-        updateUser.username == userDto.username
-        updateUser.emailAddress == userDto.emailAddress
-        updateUser.roles == userDto.roles
+        updatedUser.firstName == userDto.firstName
+        updatedUser.middleName == userDto.middleName
+        updatedUser.lastName == userDto.lastName
+        updatedUser.suffix == userDto.suffix
+        updatedUser.username == userDto.username
+        updatedUser.emailAddress == userDto.emailAddress
+        updatedUser.roles == userDto.roles
     }
 }
