@@ -2,14 +2,14 @@ package com.sampleapptdd.demo.type
 
 import org.springframework.security.core.GrantedAuthority
 
-public enum RoleAuthority implements GrantedAuthority {
+enum RoleAuthority implements GrantedAuthority {
 
     ROLE_ADMIN('ROLE_ADMIN'),
     ROLE_USER('ROLE_USER')
 
     String name
 
-    public RoleAuthority(String name) {
+    RoleAuthority(String name) {
         this.name = name
     }
 
@@ -17,7 +17,7 @@ public enum RoleAuthority implements GrantedAuthority {
         return name
     }
 
-    public static RoleAuthority findByName(String name) {
+    static RoleAuthority findByName(String name) {
         return values().find { name.toUpperCase() == it.name }
     }
 

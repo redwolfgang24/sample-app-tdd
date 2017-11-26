@@ -38,7 +38,7 @@ class User {
         suffix nullable: true
         username blank: false, unique: true
         password blank: false
-        emailAddress nullable: false, unique: true
+        emailAddress email: true, nullable: false, unique: true
         status nullable: false
         dateVerified nullable: true
         dateCreated nullable: true
@@ -64,22 +64,22 @@ class User {
         }
     }
 
-    public void encodePassword() {
+    void encodePassword() {
         password = springSecurityService.encodePassword(password)
     }
 
-    public String getFullNameOrEmailAddress() {
-        if(this.firstName && this.lastName) {
+    String getFullNameOrEmailAddress() {
+        if (this.firstName && this.lastName) {
             return "${this.firstName} ${this.middleName ? this.middleName : ''} ${this.lastName} ${this.suffix ? this.suffix : ''}"
         } else {
             return this.emailAddress
         }
     }
 
-    public boolean isRolesContains(RoleAuthority authority) {
+    boolean isRolesContains(RoleAuthority authority) {
         boolean isContains = false
         roles.each { role ->
-            if(role.authority == authority || role.authority.equals(authority)) {
+            if (role.authority == authority || role.authority.equals(authority)) {
                 isContains = true
             }
         }
