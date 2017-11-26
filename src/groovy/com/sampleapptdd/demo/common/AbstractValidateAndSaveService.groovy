@@ -10,7 +10,7 @@ import groovy.util.logging.Log4j
 @Log4j
 abstract class AbstractValidateAndSaveService {
 
-    public def validateAndSave(def object, Map params = [flush: true, failOnError: true]) {
+    def validateAndSave(def object, Map params = [flush: true, failOnError: true]) {
         try {
             object.save(params)
         } catch (ValidationException e) {
@@ -21,7 +21,7 @@ abstract class AbstractValidateAndSaveService {
         }
     }
 
-    public def batchValidateAndSave(List objects, int flushBatchSize = 100) {
+    def batchValidateAndSave(List objects, int flushBatchSize = 100) {
 
         int index = 0
 

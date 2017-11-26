@@ -6,15 +6,15 @@ import grails.transaction.Transactional
 @Transactional
 class RoleService {
 
-    public Role fetchRoleByAuthority(RoleAuthority authority) {
+    Role fetchRoleByAuthority(RoleAuthority authority) {
         return fetchByAuthority(authority)
     }
 
-    public Role fetchAdminRole() {
+    Role fetchAdminRole() {
         return fetchByAuthority(RoleAuthority.ROLE_ADMIN)
     }
 
-    public Role fetchUserRole() {
+    Role fetchUserRole() {
         return fetchByAuthority(RoleAuthority.ROLE_USER)
     }
 

@@ -10,7 +10,7 @@ class UserRoleService extends AbstractValidateAndSaveService {
 
     RoleService roleService
 
-    public void save(User user, Set<RoleAuthority> userRoleName) {
+    void save(User user, Set<RoleAuthority> userRoleName) {
         for(RoleAuthority roleAuthority : userRoleName) {
             UserRole userRole = new UserRole(
                     user: user,
@@ -20,7 +20,7 @@ class UserRoleService extends AbstractValidateAndSaveService {
         }
     }
 
-    public UserRole save(User user, RoleAuthority roleAuthority) {
+    UserRole save(User user, RoleAuthority roleAuthority) {
         UserRole userRole = new UserRole(
                 user: user,
                 role: roleService.fetchRoleByAuthority(roleAuthority)
@@ -30,7 +30,7 @@ class UserRoleService extends AbstractValidateAndSaveService {
         return userRole
     }
 
-    public void update(User user, Set<RoleAuthority> roles) {
+    void update(User user, Set<RoleAuthority> roles) {
         if (roles) {
             List<UserRole> userRoles = UserRole.findAllByUser(user)
             removeObsoleteRoles(userRoles, roles)
@@ -38,7 +38,7 @@ class UserRoleService extends AbstractValidateAndSaveService {
         }
     }
 
-    public Set<Role> fetchAllRoles(User user) {
+    Set<Role> fetchAllRoles(User user) {
         return user.roles
     }
 
@@ -57,7 +57,7 @@ class UserRoleService extends AbstractValidateAndSaveService {
     private void assignNewRoles(User user, Set<Role> existingRoles, Set<RoleAuthority> rolesToBeAssigned) {
         rolesToBeAssigned.each { roleName ->
             Role role = roleService.fetchRoleByAuthority(roleName)
-            if(!existingRoles.contains(role)) {
+            if (!existingRoles.contains(role)) {
                 UserRole userRole = new UserRole(
                         user: user,
                         role: role
@@ -80,7 +80,7 @@ class UserRoleService extends AbstractValidateAndSaveService {
     }
 
     private boolean isRoleExist(User user, RoleAuthority authority) {
-        if(UserRole.findByUserAndRole(user, roleService.fetchRoleByAuthority(authority))) {
+        if (UserRole.findByUserAndRole(user, roleService.fetchRoleByAuthority(authority))) {
             return true
         } else {
             return false

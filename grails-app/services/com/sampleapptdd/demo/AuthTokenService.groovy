@@ -20,7 +20,8 @@ class AuthTokenService extends AbstractValidateAndSaveService {
     /**
      * Public method here
      * */
-    public AuthToken generateLoginToken(User user, AuthTokenType tokenType) {
+	//TODO: Create unit test for this method call
+    AuthToken generateLoginToken(User user, AuthTokenType tokenType) {
         String token = tokenGenerator.generateToken()
         AuthToken authToken = new AuthToken(
                 token: token,
@@ -34,9 +35,10 @@ class AuthTokenService extends AbstractValidateAndSaveService {
         return authToken
     }
 
-    public AuthToken fetchByUser(User user) {
+    //TODO: Create unit test for this method call
+    AuthToken fetchByUser(User user) {
         AuthToken authToken = AuthToken.findByUser(user)
-        if(!authToken) {
+        if (!authToken) {
             throw new ResourceNotFoundException()
         }
 
@@ -44,18 +46,19 @@ class AuthTokenService extends AbstractValidateAndSaveService {
     }
 
     //TODO: Create unit test for this method call
-    public AuthToken fetchByToken(String token) {
+    AuthToken fetchByToken(String token) {
         AuthToken authToken = AuthToken.findByToken(token)
-        if(!authToken) {
+        if (!authToken) {
             throw new ResourceNotFoundException()
         }
 
         return authToken
     }
 
-    public void removeToken(String tokenValue) throws InvalidTokenException {
+	//TODO: Create unit test for this method call
+    void removeToken(String tokenValue) throws InvalidTokenException {
         def existingToken = findExistingToken(tokenValue)
-        if(!existingToken){
+        if (!existingToken) {
             throw new InvalidTokenException("Token ${tokenValue} not found")
         }
 

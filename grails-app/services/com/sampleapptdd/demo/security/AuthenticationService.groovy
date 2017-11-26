@@ -15,7 +15,7 @@ class AuthenticationService extends AbstractValidateAndSaveService {
     UserService userService
     PasswordEncoder passwordEncoder
 
-    public User authenticate(String username, String password) {
+    User authenticate(String username, String password) {
         User authenticatedUser = authenticateUser(username, password)
         updateLastLogin(authenticatedUser)
 
@@ -28,15 +28,15 @@ class AuthenticationService extends AbstractValidateAndSaveService {
     private User authenticateUser(String username, String password) {
 
         User authenticatedUser = userService.fetchByEmailOrUserName(username)
-        if(!authenticatedUser) {
+        if (!authenticatedUser) {
             throw new AuthenticationException("Unregistered authenticatedUser!")
         }
 
-        if(!authenticatedUser.verified) {
+        if (!authenticatedUser.verified) {
             throw new VerificationException(ApiError.NOT_VERIFIED_USER)
         }
 
-        if(!password || !passwordEncoder.isPasswordValid(authenticatedUser.password, password, null)) {
+        if (!password || !passwordEncoder.isPasswordValid(authenticatedUser.password, password, null)) {
             throw new AuthenticationException("Mismatched password!")
         }
 
